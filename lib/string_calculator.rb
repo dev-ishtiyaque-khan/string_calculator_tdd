@@ -15,9 +15,7 @@ class StringCalculator
 
     delimiter, numbers = extract_delimiter_and_numbers(numbers)
     numbers_arr = numbers.split(/#{delimiter}/)
-
-    negative_numbers = numbers_arr.select { |number| number.to_i.negative? }
-    raise NegativeNumberError, negative_numbers if negative_numbers.any?
+    validate_numbers!(numbers_arr)
 
     numbers_arr.reduce(0) { |sum, number| sum + number.to_i }
   end
@@ -26,6 +24,13 @@ class StringCalculator
 
   def validate_input!(numbers)
     raise InvalidInputError, numbers if numbers.end_with?("\n") || numbers.end_with?(',')
+  end
+
+  def validate_numbers!(numbers_arr)
+    negative_numbers = numbers_arr.select { |number| number.to_i.negative? }
+    return if negative_numbers.empty?
+
+    raise NegativeNumberError, negative_numbers
   end
 
   def extract_delimiter_and_numbers(numbers)
