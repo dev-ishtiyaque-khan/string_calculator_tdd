@@ -26,6 +26,7 @@ describe StringCalculator do
 
     context 'with invalid input' do
       include_examples 'raise error for invalid input', "1,\n"
+      include_examples "raise error for invalid input", "1\n2,3,"
     end
   end
 end
