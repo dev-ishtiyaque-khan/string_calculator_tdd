@@ -4,12 +4,13 @@ describe StringCalculator do
   subject(:calculator) { described_class.new }
 
   describe '#add' do
-    it 'returns 0 for an empty string' do
-      expect(calculator.add('')).to eq(0)
+    shared_examples 'calculate sum of input' do |numbers, sum|
+      it "returns #{sum} for input #{numbers}" do
+        expect(calculator.add(numbers)).to eq(sum)
+      end
     end
-  end
 
-  it 'returns number for a single number' do
-    expect(calculator.add('1')).to eq(1)
+    include_examples 'calculate sum of input', '', 0
+    include_examples 'calculate sum of input', '1', 1
   end
 end
