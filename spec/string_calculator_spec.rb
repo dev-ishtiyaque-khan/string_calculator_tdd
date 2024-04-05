@@ -16,6 +16,16 @@ describe StringCalculator do
       end
     end
 
+    shared_examples 'raise error for negative numbers' do |numbers, negative_numbers|
+      it "raises error for input #{numbers.inspect}" do
+        expect { calculator.add(numbers) }
+          .to raise_error(
+            described_class::NegativeNumberError,
+            /negative numbers not allowed #{negative_numbers}/
+          )
+      end
+    end
+
     context 'with valid input' do
       context 'with default delimiter' do
         include_examples 'calculate sum of input', '', 0
@@ -33,6 +43,11 @@ describe StringCalculator do
     context 'with invalid input' do
       include_examples 'raise error for invalid input', "1,\n"
       include_examples "raise error for invalid input", "1\n2,3,"
+    end
+
+    context 'with negative numbers' do
+      include_examples 'raise error for negative numbers', '1,-1', '-1'
+      include_examples 'raise error for negative numbers', "2\n-1,-4,3", '-1, -4'
     end
   end
 end
