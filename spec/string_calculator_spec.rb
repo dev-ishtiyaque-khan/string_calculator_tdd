@@ -10,10 +10,22 @@ describe StringCalculator do
       end
     end
 
-    include_examples 'calculate sum of input', '', 0
-    include_examples 'calculate sum of input', '1', 1
-    include_examples 'calculate sum of input', '1,5', 6
-    include_examples 'calculate sum of input', '1,3,6', 10
-    include_examples 'calculate sum of input', "1\n2,3", 6
+    shared_examples 'raise error for invalid input' do |numbers|
+      it "raises error for input #{numbers.inspect}" do
+        expect { calculator.add(numbers) }.to raise_error(described_class::InvalidInputError, numbers)
+      end
+    end
+
+    context 'with valid input' do
+      include_examples 'calculate sum of input', '', 0
+      include_examples 'calculate sum of input', '1', 1
+      include_examples 'calculate sum of input', '1,5', 6
+      include_examples 'calculate sum of input', '1,3,6', 10
+      include_examples 'calculate sum of input', "1\n2,3", 6
+    end
+
+    context 'with invalid input' do
+      include_examples 'raise error for invalid input', "1,\n"
+    end
   end
 end
