@@ -13,5 +13,6 @@ describe StringCalculator do
     include_examples 'calculate sum of input', '', 0
     include_examples 'calculate sum of input', '1', 1
     include_examples 'calculate sum of input', '1,5', 6
+    include_examples 'calculate sum of input', '1,3,6', 10
   end
 end
