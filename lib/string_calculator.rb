@@ -1,5 +1,10 @@
 class StringCalculator
   class InvalidInputError < StandardError; end
+  class NegativeNumberError < StandardError
+    def initialize(number)
+      super("negative numbers not allowed #{number.join(', ')}")
+    end
+  end
 
   DEFAULT_DELIMETER = Regexp.new('[,\n]')
 
@@ -9,7 +14,12 @@ class StringCalculator
     validate_input!(numbers)
 
     delimiter, numbers = extract_delimiter_and_numbers(numbers)
-    numbers.split(/#{delimiter}/).reduce(0) { |sum, number| sum + number.to_i }
+    numbers_arr = numbers.split(/#{delimiter}/)
+
+    negative_numbers = numbers_arr.select { |number| number.to_i.negative? }
+    raise NegativeNumberError, negative_numbers if negative_numbers.any?
+
+    numbers_arr.reduce(0) { |sum, number| sum + number.to_i }
   end
 
   private
