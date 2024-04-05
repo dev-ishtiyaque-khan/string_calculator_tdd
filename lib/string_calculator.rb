@@ -12,6 +12,6 @@ class StringCalculator
   private
 
   def validate_input!(numbers)
-    raise InvalidInputError, numbers if numbers.end_with?("\n")
+    raise InvalidInputError, numbers if numbers.end_with?("\n") || numbers.end_with?(',')
   end
 end
